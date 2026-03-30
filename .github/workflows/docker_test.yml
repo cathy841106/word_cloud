@@ -1,0 +1,51 @@
+name: Docker Compose Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 取得程式碼
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 安裝 Docker Compose
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      # 啟動服務
+      - name: Start Docker Compose services
+        run: docker compose up -d
+
+      # 等待服務 ready
+      # - name: Wait for service to be ready
+      #   run: |
+      #     # 假設你的服務有 /health endpoint
+      #     for i in {1..10}; do
+      #       if curl -f http://localhost:8000/health; then
+      #         echo "Service is up!"
+      #         break
+      #       fi
+      #       echo "Waiting for service..."
+      #       sleep 5
+      #     done
+
+      # 執行測試
+      - name: Run integration tests
+        run: |
+          curl http://localhost:55056
+
+      # 關閉容器（無論測試成功或失敗）
+      - name: Shutdown Docker Compose
+        if: always()
+        run: docker compose down
