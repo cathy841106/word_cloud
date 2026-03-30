@@ -40,15 +40,15 @@ jobs:
             sleep 5
           done
 
+      # 顯示 Docker logs
+      - name: Show Docker logs
+        # if: failure()
+        run: docker logs -f --tail 200 word_cloud
+
       # 執行測試
       - name: Run integration tests
         run: |
           curl http://localhost:55056
-
-      # 若服務啟動失敗，顯示 Docker logs
-      - name: Show Docker logs if service failed
-        # if: failure()
-        run: docker logs -f --tail 200 word_cloud
 
       # 關閉容器（無論測試成功或失敗）
       - name: Shutdown Docker Compose
