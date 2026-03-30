@@ -42,13 +42,15 @@ jobs:
 
       # 顯示 Docker logs
       - name: Show Docker logs
-        # if: failure()
+        if: failure()
         run: docker logs -f --tail 200 word_cloud
 
       # 執行測試
       - name: Run integration tests
         run: |
-          curl http://localhost:55056
+          curl -X POST http://localhost:55056/word_cloud \
+            -H "Content-Type: application/json" \
+            -d '{"text": "這是一段測試"}'
 
       # 關閉容器（無論測試成功或失敗）
       - name: Shutdown Docker Compose

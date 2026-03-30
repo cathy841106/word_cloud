@@ -15,7 +15,7 @@ class WordCloud(MethodView):
                 return error_return('{} is required'.format(', '.join(missing)), 400)
 
             text = request.json.get('text')
-            top_N = int(request.form.get('top_N', 10))
+            top_N = int(request.json.get('top_N', 10))
 
             word_cloud_result = word_cloud(text, top_N=top_N) 
 
