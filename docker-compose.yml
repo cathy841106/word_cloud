@@ -15,6 +15,11 @@ services:
     environment:
       TZ: "Asia/Taipei"
       LANG: C.UTF-8
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 5s
+      retries: 5
+      timeout: 3s
     sysctls:
       net.core.somaxconn: 1024
     volumes:
