@@ -31,7 +31,7 @@ jobs:
       - name: Wait for service to be ready
         run: |
           # 假設你的服務有 /health endpoint
-          for i in {1..10}; do
+          for i in {1..3}; do
             if curl -f http://localhost:55056/health; then
               echo "Service is up!"
               break

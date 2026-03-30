@@ -18,7 +18,7 @@ services:
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 5s
-      retries: 5
+      retries: 3
       timeout: 3s
     sysctls:
       net.core.somaxconn: 1024

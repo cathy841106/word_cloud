@@ -3,7 +3,6 @@ import os, time, json
 from flask import Flask, jsonify
 from flask_cors       import CORS
 from flask_wtf.csrf   import CSRFProtect
-from flask_sqlalchemy import SQLAlchemy
 
 class Config(object):
     SECRET_KEY = 'uvd/dktgmx#mdb3veg9@b5wkgixci61)7hnn3t4f!fwv9'
@@ -19,10 +18,6 @@ class Development(Config):
     WTF_CSRF_ENABLED    = False
     WTF_CSRF_SSL_STRICT = False
 
-    #flask-sqlalchmy extension configuration
-    SQLALCHEMY_ECHO                = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
 
 class Production(Config):
     DEBUG      = False
@@ -30,10 +25,6 @@ class Production(Config):
 
     WTF_CSRF_ENABLED    = False
     WTF_CSRF_SSL_STRICT = False
-
-    #flask-sqlalchmy extension configuration
-    SQLALCHEMY_ECHO                = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 app = Flask(__name__)
@@ -43,7 +34,6 @@ CORS(app)
 app.url_map.strict_slashes = False
 APP_VERSION = 'Production'
 app.config.from_object('settings.environment.%s' % APP_VERSION)
-db = SQLAlchemy(app)
 
 def error_return(message, status_code):
     error = jsonify({'status': 'error', 'message': message})
