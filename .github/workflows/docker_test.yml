@@ -40,6 +40,11 @@ jobs:
             sleep 5
           done
 
+      # 若服務啟動失敗，顯示 Docker logs
+      - name: Show Docker logs if service failed
+        if: failure()
+        run: docker logs -f --tail 200 word_cloud
+
       # 執行測試
       - name: Run integration tests
         run: |
