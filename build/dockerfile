@@ -1,0 +1,24 @@
+FROM tiangolo/uwsgi-nginx-flask:python3.10
+
+# Update apt-get and install required packages
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y tzdata
+
+# Clean cache
+RUN apt-get autoclean; rm -rf /var/lib/apt/lists/*
+
+# Install python packages
+RUN pip install --upgrade pip
+COPY requirements.txt ./requirements.txt
+RUN pip install -r requirements.txt
+
+COPY ./nginx /etc/nginx/conf.d
+
+# Change timezone to Taipei
+RUN TZ=Asia/Taipei \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone \
+    && dpkg-reconfigure -f noninteractive tzdata
+
+# Define working directory
+WORKDIR /app

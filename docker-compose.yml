@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  word_cloud:
+    container_name: word_cloud
+    build:
+        context: ./build/
+        dockerfile: dockerfile
+    image: word_cloud:uwsgi-nginx-flask-py3.10
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1g"
+    environment:
+      TZ: "Asia/Taipei"
+      LANG: C.UTF-8
+    sysctls:
+      net.core.somaxconn: 1024
+    volumes:
+      - ./src:/app
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 55056:80
