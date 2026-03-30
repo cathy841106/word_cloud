@@ -6,7 +6,7 @@ services:
     build:
         context: ./build/
         dockerfile: dockerfile
-    image: word_cloud:uwsgi-nginx-flask-py3.10
+    image: word_cloud:uwsgi-nginx-flask-py3.8
     restart: always
     logging:
       driver: "json-file"
